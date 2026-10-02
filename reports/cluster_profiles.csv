@@ -1,0 +1,5 @@
+cluster,segment,median_income,median_house_value,housing_median_age,rooms_per_household,population_per_household,blocks,inland share
+0,Affluent newer suburbs,5.87,289278.37,22.59,7.04,3.11,4160,0.22
+2,Established older neighbourhoods,3.49,234216.43,39.58,4.8,2.47,5142,0.13
+3,Newer inland,3.1,134417.2,19.08,5.35,2.66,6123,0.59
+1,Crowded lower-income,2.57,128218.47,33.88,4.41,4.47,4218,0.31

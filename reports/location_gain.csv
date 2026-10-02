@@ -1,0 +1,3 @@
+,random,random_sd,spatial1,spatial1_sd,spatial2,spatial2_sd
+Without coordinates,0.7028,0.0069,0.6209,0.0837,0.6275,0.0891
+With latitude / longitude,0.8023,0.0022,0.6866,0.0342,0.633,0.1333
