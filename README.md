@@ -5,16 +5,19 @@
 linear regression to a neural network, and segments the market with KMeans. A second pass then checks
 which of the original conclusions hold up.
 
+> 3-person HEC Lausanne course project (May 2026). In the group I worked on data cleaning, modeling and
+> visualization; in 2026 I re-checked and rebuilt the analysis on my own. Credits: [Team](#team).
+
 ![Python](https://img.shields.io/badge/Python-3.9+-3776AB?logo=python&logoColor=white)
 ![pandas](https://img.shields.io/badge/pandas-150458?logo=pandas&logoColor=white)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?logo=scikitlearn&logoColor=white)
-![tests](https://img.shields.io/badge/tests-21%20passing-1baf7a)
+[![tests](https://github.com/twillixa/california-housing-ml/actions/workflows/tests.yml/badge.svg)](https://github.com/twillixa/california-housing-ml/actions/workflows/tests.yml)
 
 <p align="center"><img src="figures/model_comparison.png" width="720" alt="Five-fold cross-validated R² for seven models: random forest 0.702, gradient boosting 0.701, MLP 0.698, SVR 0.692, linear models 0.610; orange ticks show the original report's single-split scores"></p>
 
 | | |
 |---|---|
-| **Data** | 19,643 California census block groups (1990), median house value as the target |
+| **Data** | 19,643 California census block groups (1990), median house value as the target (blocks at the $500k census cap excluded) |
 | **Best models** | Random forest, gradient boosting and a neural network tie at **R² ≈ 0.70** (5-fold CV). SVR is about 0.01 behind and linear models plateau at 0.61 |
 | **Strongest drivers** | Median income (about half of model importance), then inland vs coast, then people per household |
 | **Biggest improvement** | Adding latitude/longitude lifts R² from **0.70 to 0.80** and cuts RMSE from $52,300 to **$42,700** for blocks near known ones. For brand-new regions the gain mostly disappears |
@@ -121,6 +124,10 @@ dollars, so this is a modelling benchmark, not a view of today's market.
 - Blocks at the $500,001 census ceiling (992) are dropped, so the models never see the most expensive areas.
 - Hyperparameters are the report's: lightly tuned. A larger search or a modern booster (LightGBM, XGBoost)
   would likely add a little. Location features add more near known blocks.
+- The paired t statistics treat the 5 CV folds as independent, but folds share training data, so they overstate
+  certainty (a Nadeau-Bengio correction would widen them). The "three models tie" conclusion does not depend on this.
+- Reproducing the report, Lasso is fit on raw dollar prices and stops before converging (scikit-learn
+  `ConvergenceWarning`). Its scores match the report and the other linear models, but treat them as approximate.
 - The tests pin results to four decimals and were run with Python 3.9, pandas 2.3, numpy 2.0 and scikit-learn 1.6.
   Other versions can shift tree models by around 1e-4.
 
@@ -131,4 +138,6 @@ Antonio Aroche and Mila Stojanovic**. The original notebook is in the git histor
 [toni2174301/CFF-](https://github.com/toni2174301/CFF-). This repository is a tested, modular port of it,
 with the re-check above added.
 
-Code is released under the [MIT License](LICENSE).
+Code is released under the [MIT License](LICENSE). `data/raw/california_housing.csv` is the California Housing
+dataset (1990 U.S. Census; Pace & Barry, 1997), as distributed on Kaggle (shibumohapatra/house-price); it is not
+covered by the license.
